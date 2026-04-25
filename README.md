@@ -21,10 +21,10 @@ van den Oord 2016 PixelRNN/PixelCNN · WaveNet · Kingma & Welling 2013 VAE · H
 [![diffusers](https://img.shields.io/badge/diffusers-0.25-FFB000?style=flat-square)](https://github.com/huggingface/diffusers)
 [![normflows](https://img.shields.io/badge/normflows-1.7-4B8BBE?style=flat-square)](https://github.com/VincentStimper/normalizing-flows)
 [![Docs](https://img.shields.io/badge/Docs-33개-blue?style=flat-square&logo=readthedocs&logoColor=white)](./README.md)
-[![Lines](https://img.shields.io/badge/Lines-16.5k+-informational?style=flat-square)](./README.md)
-[![Theorems](https://img.shields.io/badge/Theorems·Definitions-152개-success?style=flat-square)](./README.md)
+[![Lines](https://img.shields.io/badge/Lines-12k+-informational?style=flat-square)](./README.md)
+[![Theorems](https://img.shields.io/badge/Theorems·Definitions-194개-success?style=flat-square)](./README.md)
 [![Reproductions](https://img.shields.io/badge/Paper_reproductions-14개-critical?style=flat-square)](./README.md)
-[![Exercises](https://img.shields.io/badge/Exercises-95개-orange?style=flat-square)](./README.md)
+[![Exercises](https://img.shields.io/badge/Exercises-99개-orange?style=flat-square)](./README.md)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square&logo=opensourceinitiative&logoColor=white)](./LICENSE)
 
 </div>
@@ -271,7 +271,7 @@ van den Oord 2016 PixelRNN/PixelCNN · WaveNet · Kingma & Welling 2013 VAE · H
 | **5대 계보 Trade-off** | AR · VAE · Flow · GAN · Diffusion 의 likelihood/speed/quality 표 | [Ch7-01](./ch7-unification/01-five-families-comparison.md) |
 | **Consistency Model One-Step** | $f_\theta(x_t, t) \to x_0$ 로 1 step sampling | [Ch7-02](./ch7-unification/02-consistency-rectified-flow.md) |
 
-> 💡 **챕터별 문서·정리/정의 수**: Ch1(4문서, 16 정리·정의) · Ch2(4문서, 14) · Ch3(5문서, 26) · Ch4(5문서, 24) · Ch5(6문서, 32) · Ch6(5문서, 26) · Ch7(4문서, 14) — 합계 **33문서 + 152 정리·정의 + 34 엄밀한 $\square$ 증명 + 108개 PyTorch 실험**, 약 **16,500 라인** 분량.
+> 💡 **챕터별 문서·정리/정의 수**: Ch1(4문서, 23 정리·정의) · Ch2(4문서, 23) · Ch3(5문서, 30) · Ch4(5문서, 29) · Ch5(6문서, 36) · Ch6(5문서, 31) · Ch7(4문서, 22) — 합계 **33문서 + 194 정리·정의 + 30 엄밀한 $\square$ 증명 + 110+ PyTorch 실험**, 약 **12,000 라인** 분량.
 
 ---
 
@@ -432,11 +432,11 @@ class CouplingLayer(nn.Module):
 | 10 | 📌 **핵심 정리** | 한 장으로 요약 |
 | 11 | 🤔 **생각해볼 문제 (+ 해설)** | 손 계산·증명 재구성·구현·논문 비평 문제 |
 
-> 📚 **연습문제 총 95개**: 대부분 문서가 3문제 (기초/심화/논문 비평), 일부(Ch6-05, Ch7-04)는 2문제. 모든 문제에 `<details>` 펼침 해설 포함. ELBO 손 유도부터 JSD 환원 재증명, RealNVP Jacobian 계산, DDPM simple loss 유도, Score-SDE reverse 증명, Stable Diffusion CFG $w$ sweep 까지 단계적으로 심화됩니다.
+> 📚 **연습문제 총 99개**: 모든 문서가 3문제씩 (기초 / 심화 / 논문 비평) — 33문서 × 3 = 99문제. 모든 문제에 `<details>` 펼침 해설 포함. ELBO 손 유도부터 JSD 환원 재증명, RealNVP Jacobian 계산, DDPM simple loss 유도, Score-SDE reverse 증명, Stable Diffusion CFG $w$ sweep 까지 단계적으로 심화됩니다.
 >
 > 🧭 **푸터 네비게이션**: 각 문서 하단에 `◀ 이전 / 📚 README / 다음 ▶` 링크가 항상 제공됩니다. 챕터 경계에서도 다음 챕터 첫 문서로 자동 연결됩니다.
 >
-> ⏱️ **학습 시간 추정**: 문서당 평균 약 500줄 (정의·증명·코드·연습문제 포함) 기준 **약 55분~1시간 15분**. 전체 33문서는 약 **30~41시간** 상당 (증명 재구성·실험 재현 포함 시 50시간+).
+> ⏱️ **학습 시간 추정**: 문서당 평균 약 360줄 (정의·증명·코드·연습문제 포함) 기준 **약 40분~1시간**. 전체 33문서는 약 **22~33시간** 상당 (증명 재구성·실험 재현 포함 시 40시간+).
 
 ---
 
