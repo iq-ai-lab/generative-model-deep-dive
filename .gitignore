@@ -1,0 +1,231 @@
+# =============================================================================
+# Generative Model Deep Dive — .gitignore
+# =============================================================================
+
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# Distribution / Packaging
+.Python
+build/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+MANIFEST
+sdist/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ── Jupyter Notebook ─────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# ── NumPy / PyTorch / diffusers cache ────────────────────────────────────────
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.bin
+
+# Framework caches (PyTorch, diffusers, normflows, transformers)
+.torch_cache/
+.diffusers_cache/
+.normflows_cache/
+.transformers_cache/
+
+# HuggingFace / datasets / hub cache
+.cache/huggingface/
+datasets_cache/
+hf_cache/
+~/.cache/huggingface/
+
+# ── Experiment outputs ───────────────────────────────────────────────────────
+# 생성된 이미지 · 비디오 파일 (각 챕터의 시각화 결과물)
+# Ch1: KL·JSD divergence 시각화, FID·IS metric plot,
+# Ch2: PixelCNN 생성 grid · WaveNet audio waveform · GPT sampling,
+# Ch3: VAE reconstruction · latent interpolation · β-VAE disentanglement · VQ-VAE codebook,
+# Ch4: RealNVP 2-moon transport · Glow 얼굴 · MAF/IAF density · FFJORD trajectory,
+# Ch5: GAN sample grid · mode collapse 재현 · WGAN loss curve · StyleGAN interpolation,
+# Ch6: DDPM forward 노이즈 주입 · reverse denoising · Score-SDE trajectory · CFG w sweep,
+# Ch7: 5-모델 동시 비교 grid · Consistency Model one-step · Stable Diffusion 예제
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.pdf
+*.gif
+*.mp4
+*.webp
+*.wav
+*.mp3
+*.flac
+
+# 훈련 결과 / 체크포인트 / 로그
+results/
+outputs/
+logs/
+checkpoints/
+runs/
+wandb/
+mlruns/
+tensorboard/
+lightning_logs/
+samples/
+generated/
+*.log
+*.csv
+*.tsv
+*.h5
+*.hdf5
+*.tfevents.*
+
+# 재현 실험 산출물 (논문별)
+reproductions/goodfellow2014/*.npz
+reproductions/kingma2013/*.pt
+reproductions/vandenoord2016_pixelrnn/*.pt
+reproductions/vandenoord2016_wavenet/*.pt
+reproductions/vandenoord2017_vqvae/*.pt
+reproductions/dinh2017_realnvp/*.pt
+reproductions/kingma2018_glow/*.pt
+reproductions/papamakarios2017_maf/*.pt
+reproductions/kingma2016_iaf/*.pt
+reproductions/grathwohl2019_ffjord/*.pt
+reproductions/arjovsky2017_wgan/*.pt
+reproductions/gulrajani2017_wgangp/*.pt
+reproductions/miyato2018_spectral/*.pt
+reproductions/karras2019_stylegan/*.pt
+reproductions/karras2020_stylegan2/*.pt
+reproductions/higgins2017_betavae/*.pt
+reproductions/song2019_ncsn/*.pt
+reproductions/ho2020_ddpm/*.pt
+reproductions/song2020_ddim/*.pt
+reproductions/song2021_scoresde/*.pt
+reproductions/ho2022_cfg/*.pt
+reproductions/dhariwal2021_guidance/*.pt
+reproductions/rombach2022_ldm/*.pt
+reproductions/peebles2023_dit/*.pt
+reproductions/song2023_consistency/*.pt
+reproductions/liu2023_rectified/*.pt
+
+# 다운로드된 데이터셋 (MNIST, CIFAR, CelebA, LSUN, FFHQ, LibriSpeech 등)
+data/
+datasets/
+MNIST/
+FashionMNIST/
+cifar-10-batches-py/
+cifar-100-python/
+celeba/
+ffhq/
+lsun/
+ffhq-dataset/
+imagenet/
+coco/
+librispeech/
+!data/.gitkeep
+
+# Pretrained weight cache (Stable Diffusion, VAE, CLIP 등)
+pretrained/
+weights/
+hub/
+sd-models/
+*.vae.pt
+vae_cache/
+clip_cache/
+
+# ── IDE / Editor ─────────────────────────────────────────────────────────────
+# JetBrains (PyCharm, IntelliJ)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+
+# ── Documentation build ──────────────────────────────────────────────────────
+docs/_build/
+docs/generated/
+site/
+.mkdocs_cache/
+
+# ── Secrets / Credentials ────────────────────────────────────────────────────
+.env.local
+.env.*.local
+secrets.py
+credentials.json
+hf_token
+openai_key
+*.pem
+*.key
+
+# ── GPU / CUDA 캐시 ─────────────────────────────────────────────────────────
+.nv_cache/
+.nvidia/
+*.cu.o
+
+# ── Miscellaneous ────────────────────────────────────────────────────────────
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+*.mo
+*.pot
