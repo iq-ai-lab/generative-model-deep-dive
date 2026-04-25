@@ -2,15 +2,43 @@
 
 # 🎨 Generative Model Deep Dive
 
-**"`StableDiffusionPipeline.from_pretrained(...)`으로 이미지를 뽑는 것과, GAN의 minimax $\min_G \max_D V(D, G) = \mathbb{E}_{p_d}[\log D(x)] + \mathbb{E}_{p_z}[\log(1-D(G(z)))]$ 에서 최적 $D^*(x) = p_d(x)/(p_d(x) + p_g(x))$ 를 대입하면 $V(D^*, G) = 2 \cdot JSD(p_d \| p_g) - \log 4$ 가 되어 minimax 해가 $p_g = p_d$ 인 이유를 Goodfellow 2014의 방식으로 유도할 수 있는 것은 다르다"**
+### `StableDiffusionPipeline.from_pretrained(...)` 으로 이미지를 뽑는 것과,
+
+### GAN 의 minimax 에서 최적 discriminator 를 대입하면
+
+$$V(D^*, G) = 2 \cdot \text{JSD}(p_d \,\|\, p_g) - \log 4$$
+
+### 가 되어 minimax 해가 $p_g = p_d$ 인 이유를 **직접 유도할 수 있는 것은 다르다.**
 
 <br/>
 
-> *"VAE의 ELBO를 쓰는 것과 — `Kingma & Welling 2013`의 **$\log p(x) = \mathcal{L}(\theta, \phi; x) + \text{KL}(q_\phi(z|x) \| p_\theta(z|x))$** 로부터 $\mathcal{L} = \mathbb{E}_q[\log p(x|z)] - \text{KL}(q(z|x) \| p(z))$ 가 reconstruction + regularization 으로 **정확히** 분해되고, reparameterization trick $z = \mu + \sigma \odot \epsilon$ 이 왜 low-variance Monte Carlo gradient 를 가능케 하는지 증명할 수 있는 것은 다르다.
-> Normalizing Flow 를 듣는 것과 — `Dinh 2017 RealNVP`의 coupling layer 가 **삼각 Jacobian**으로 $\log p(x) = \log p(z) - \sum_l \log|\det J_{f_l}|$ 의 determinant 를 $O(n)$ 에 계산 가능하게 만든 설계와, `Grathwohl 2019 FFJORD`의 Hutchinson trace estimator 로 continuous-time flow의 $-\int_0^T \text{tr}(\partial f/\partial z)\, dt$ 를 해결한 메커니즘을 유도할 수 있는 것은 다르다."*
+> *VAE 의 ELBO 를 **쓰는 것** 과,*
+>
+> $$\log p(x) = \mathcal{L}(\theta, \phi; x) + \text{KL}\bigl(q_\phi(z|x) \,\|\, p_\theta(z|x)\bigr)$$
+>
+> *로부터 ELBO 가 **reconstruction + regularization 으로 정확히 분해** 되고, reparameterization $z = \mu + \sigma \odot \epsilon$ 이 왜 **low-variance Monte Carlo gradient** 를 가능케 하는지 증명할 수 있는 것은 다르다.*
+>
+> *Normalizing Flow 를 **듣는 것** 과, RealNVP 의 coupling layer 가 **삼각 Jacobian** 으로*
+>
+> $$\log p(x) = \log p(z) - \sum_l \log\bigl|\det J_{f_l}\bigr|$$
+>
+> *의 determinant 를 $O(n)$ 에 만든 설계, FFJORD 의 **Hutchinson trace estimator** 로 continuous-time flow 의 trace integral 을 해결한 메커니즘을 유도할 수 있는 것은 다르다.*
 
-van den Oord 2016 PixelRNN/PixelCNN · WaveNet · Kingma & Welling 2013 VAE · Higgins 2017 β-VAE · van den Oord 2017 VQ-VAE · Dinh 2017 RealNVP · Kingma & Dhariwal 2018 Glow · Papamakarios 2017 MAF · Grathwohl 2019 FFJORD · Goodfellow 2014 GAN · Arjovsky 2017 WGAN · Gulrajani 2017 WGAN-GP · Miyato 2018 Spectral Norm · Karras 2019 StyleGAN · Ho 2020 DDPM · Song 2019 NCSN · Song 2021 Score-SDE · Ho & Salimans 2022 CFG · Song 2023 Consistency Model 까지
-**"명시적 likelihood (AR · VAE · Flow · Diffusion) 와 암묵적 likelihood (GAN · EBM) 가 모두 $\min_\theta \text{KL}(p_\text{data} \| p_\theta)$ 라는 하나의 목표를 어떻게 근사하는가"** 를 유도·증명·구현 재현으로 끝까지 파헤칩니다
+<br/>
+
+**다루는 모델 (시간순)**
+
+van den Oord 2016 *PixelRNN · WaveNet* · Kingma & Welling 2013 *VAE* · Higgins 2017 *β-VAE* · van den Oord 2017 *VQ-VAE* · Dinh 2017 *RealNVP* · Kingma & Dhariwal 2018 *Glow* · Papamakarios 2017 *MAF* · Grathwohl 2019 *FFJORD* · Goodfellow 2014 *GAN* · Arjovsky 2017 *WGAN* · Gulrajani 2017 *WGAN-GP* · Miyato 2018 *Spectral Norm* · Karras 2019 *StyleGAN* · Ho 2020 *DDPM* · Song 2019 *NCSN* · Song 2021 *Score-SDE* · Ho & Salimans 2022 *CFG* · Song 2023 *Consistency Model*
+
+<br/>
+
+**핵심 질문**
+
+> 명시적 likelihood (AR · VAE · Flow · Diffusion) 와 암묵적 likelihood (GAN · EBM) 가 모두
+>
+> $$\min_\theta\; \text{KL}\bigl(p_\text{data} \,\|\, p_\theta\bigr)$$
+>
+> 라는 **하나의 목표** 를 어떻게 다르게 근사하는가 — 유도 · 증명 · 구현 재현으로 끝까지 파헤칩니다.
 
 <br/>
 
